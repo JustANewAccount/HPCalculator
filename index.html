@@ -125,6 +125,8 @@
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
   .btn-download { background: var(--green); color: #fff; }
   .btn-download:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn:disabled { background: #e2e8f0 !important; color: #a0aec0 !important; border-color: #e2e8f0 !important; cursor: not-allowed; transform: none !important; filter: none !important; }
+
   .btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
   /* ── KPI strip ── */
@@ -435,10 +437,10 @@
       </div>
     </div>
     <div class="btn-row" id="downloadRow" style="display:none;margin-top:12px">
-      <button class="btn btn-download" onclick="downloadXLSX()">📥 Export All Schedules (XLSX)</button>
-      <button class="btn btn-secondary" onclick="downloadCSV('r78')">Export Rule 78 (CSV)</button>
-      <button class="btn btn-secondary" onclick="downloadCSV('gaap')">Export US GAAP (CSV)</button>
-      <button class="btn btn-secondary" onclick="downloadCSV('diff')">Export Comparison (CSV)</button>
+      <button class="btn btn-download" onclick="downloadXLSX()" disabled>📥 Export All Schedules (XLSX)</button>
+      <button class="btn btn-secondary" onclick="downloadCSV('r78')" disabled>Export Rule 78 (CSV)</button>
+      <button class="btn btn-secondary" onclick="downloadCSV('gaap')" disabled>Export US GAAP (CSV)</button>
+      <button class="btn btn-secondary" onclick="downloadCSV('diff')" disabled>Export Comparison (CSV)</button>
     </div>
   </div>
 
@@ -1030,7 +1032,9 @@ function compute() {
   document.getElementById('results').style.display = 'block';
   pf.style.width = '100%'; pt.textContent = 'Done ✓';
   setTimeout(()=>{ pw.style.display='none'; pf.style.width='0%'; }, 1200);
-  document.getElementById('downloadRow').style.display = 'flex';
+      ['dlXlsx','dlR78','dlGaap','dlDiff'].forEach(id => document.getElementById(id).disabled = false);
+
+  // document.getElementById('downloadRow').style.display = 'flex';
   document.getElementById('results').scrollIntoView({behavior:'smooth', block:'start'});
 
   }, 50);
